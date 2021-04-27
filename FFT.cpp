@@ -1,4 +1,3 @@
-
 #define SAMPLES_N (2048)
 #define PLOT_OUTPUT 1
 #define SAME_EPS 0.001
@@ -15,36 +14,6 @@
 #include <assert.h>
  
 using namespace std;
- 
-typedef long long ll;
-typedef long double ld;
-typedef pair<int,int> p32;
-typedef pair<ll,ll> p64;
-typedef pair<double,double> pdd;
-typedef vector<ll> v64;
-typedef vector<int> v32;
-typedef vector<vector<int> > vv32;
-typedef vector<vector<ll> > vv64;
-typedef vector<vector<p64> > vvp64;
-typedef vector<p64> vp64;
-typedef vector<p32> vp32;
-ll MOD = 998244353;
-double eps = 1e-12;
-#define forn(i,e) for(ll i = 0; i < e; i++)
-#define forsn(i,s,e) for(ll i = s; i < e; i++)
-#define rforn(i,s) for(ll i = s; i >= 0; i--)
-#define rforsn(i,s,e) for(ll i = s; i >= e; i--)
-#define ln "\n"
-#define dbg(x) cout<<#x<<" = "<<x<<ln
-#define mp make_pair
-#define pb push_back
-#define fi first
-#define se second
-#define INF 2e18
-#define fast_cin() ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL)
-#define all(x) (x).begin(), (x).end()
-#define sz(x) ((ll)(x).size())
- 
 #define PI 3.14159265359
 
 #if PLOT_OUTPUT
@@ -90,7 +59,9 @@ bool operator!=(const CPX& a, const CPX& b){
 // vector<CPX> iterFFT2(vector<CPX> c){
 //     vector<CPX> in(c);
 //     vector<CPX> out(c.size());
-
+//
+//     // transformation
+//
 //     for(int n=2; n<c.size(); n *= 2){
 //         CPX wn = {cos(-2*PI/N), sin(-2*PI/N)};
 //         for(int s = 0; s<c.size(); s+= n){
@@ -240,8 +211,6 @@ void plot_complex(const vector<CPX>& in, const char* label){
 
 int main()
 {
-    //fast_cin();
-
     cout << "generating input..." << endl;
 
     vector<CPX> in(SAMPLES_N);
@@ -255,31 +224,23 @@ int main()
         // x.i = 0;
     }
 
+    ///////////
+
     cout << "running benchmarks..." << endl;
 
     vector<CPX> brute;
     BENCH(brute, bruteFFT, in)
-    // {
-    //     // Bench("bruteFFT");
-    //     brute = bruteFFT(in);
-    // }
 
     vector<CPX> outr;
     BENCH(outr, recurFFT, in)
-    // {
-    //     // Bench("recurFFT");
-    //     outr = recurFFT(in);
-    // }
 
     vector<CPX> outi;
     BENCH(outi, iterFFT, in)
-    // {
-    //     Bench("iterFFT");
-    //     outi = iterFFT(in);
-    // }
 
     vector<CPX> ifft_outr = bruteIFFT(outr);
     vector<CPX> ifft_outi = bruteIFFT(outi);
+
+    ///////////
 
     #if PLOT_OUTPUT 
     cout << "plotting output..." << endl;
@@ -294,6 +255,8 @@ int main()
     plt::show();
     #endif
 
+    ///////////
+
     cout << "running tests: " << endl;
     assert(same(brute, outr));
     assert(same(brute ,outi));
@@ -302,6 +265,8 @@ int main()
     assert(same(in, ifft_outr));
 
     cout << "all tests were successfull..." << endl;
+
+    ///////////
     
     return 0;
 }
