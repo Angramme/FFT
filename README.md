@@ -2,6 +2,8 @@
 
 This is a collection of simple Gauss-style FFT implementations in recursive and iterative styles. It also includes a "brute force" FT, IFT and performance comparisons. 
 
+![screenshot](/screen.png)
+
 # Building 
 
 ## With plotting
